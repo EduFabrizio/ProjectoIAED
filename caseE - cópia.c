@@ -1,6 +1,5 @@
 #include "header1 - cópia.h"
 #include "header2 - cópia.h"
-/*
 
 Estacionamento* buscaEst(char *nomeEst){
     LstEst *membroAtual = listaEst;
@@ -57,40 +56,7 @@ Carro* criaCarro(char Matricula1[2], char Matricula2[2], char Matricula3[2],
     novoCarro->horaIn = hora;
     novoCarro->minutoIn = minuto;
     novoCarro-> next = NULL;
-
-    Estacionamento *estacionamento = buscaEst(nomeEst);
-    if (estacionamento->Carros != NULL) {
-        Carro *ultimoCarro = estacionamento->Carros;
-        while (ultimoCarro->next != NULL) {
-            ultimoCarro = ultimoCarro->next;
-        }
-
-        // Verificar se a data e hora do novo carro são posteriores ao último carro
-        if ((ano < ultimoCarro->anoIn) ||
-            (ano == ultimoCarro->anoIn && mes < ultimoCarro->mesIn) ||
-            (ano == ultimoCarro->anoIn && mes == ultimoCarro->mesIn && dia < ultimoCarro->diaIn) ||
-            (ano == ultimoCarro->anoIn && mes == ultimoCarro->mesIn && dia == ultimoCarro->diaIn &&
-             hora < ultimoCarro->horaIn) ||
-            (ano == ultimoCarro->anoIn && mes == ultimoCarro->mesIn && dia == ultimoCarro->diaIn &&
-             hora == ultimoCarro->horaIn && minuto <= ultimoCarro->minutoIn)) {
-            printf("Data/hora de entrada não podem ser anteriores ao último carro estacionado.\n");
-            free(novoCarro);
-            return NULL;
-        }
-    }
-
-    // Adicionar o novo carro à lista de carros do estacionamento
-    if (!estacionamento->Carros) {
-        estacionamento->Carros = novoCarro;
-    } else {
-        Carro *temp = estacionamento->Carros;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = novoCarro;
-    }
-
-
+    novoCarro->dentro = FALSE;
     return novoCarro;
 }
 
@@ -135,10 +101,49 @@ void entraParque(char str[BUFSIZ]){
         free(matricula2);
         free(matricula3);
     }
+
+    //necessario uma funçao buscaCarro a partir da matricula
+
+    //se o carro nao existir ainda
     Carro* novoCarro = criaCarro(matricula1, matricula2, matricula3,
      dia, mes, ano, hora, minuto, nomeEst);
+    
+    Estacionamento *estacionamento = buscaEst(nomeEst);
+    if (estacionamento->Carros != NULL) {
+        Carro *ultimoCarro = estacionamento->Carros;
+        while (ultimoCarro->next != NULL) {
+            ultimoCarro = ultimoCarro->next;
+        }
+
+        // Verificar se a data e hora do novo carro são posteriores ao último carro
+        if ((ano < ultimoCarro->anoIn) ||
+            (ano == ultimoCarro->anoIn && mes < ultimoCarro->mesIn) ||
+            (ano == ultimoCarro->anoIn && mes == ultimoCarro->mesIn && dia < ultimoCarro->diaIn) ||
+            (ano == ultimoCarro->anoIn && mes == ultimoCarro->mesIn && dia == ultimoCarro->diaIn &&
+             hora < ultimoCarro->horaIn) ||
+            (ano == ultimoCarro->anoIn && mes == ultimoCarro->mesIn && dia == ultimoCarro->diaIn &&
+             hora == ultimoCarro->horaIn && minuto <= ultimoCarro->minutoIn)) {
+            printf("invalid date\n");
+            free(novoCarro);
+            return NULL;
+        }
+    }
+    if(novoCarro->dentro==TRUE){
+        printf("%s-%s-%s invalid vehicle entry.\n", matricula1, matricula2, matricula3);
+        free(novoCarro);
+    }
+    // Adicionar o novo carro à lista de carros do estacionamento
+    if (!estacionamento->Carros) {
+        estacionamento->Carros = novoCarro;
+    } else {
+        Carro *temp = estacionamento->Carros;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = novoCarro;
+    }
     (buscaEst(nomeEst)->lotAtual)++; //incrementa o parametro da lotaçao no estacionamento
+    novoCarro->dentro = TRUE;
     printf("%s %d\n", nomeEst, (buscaEst(nomeEst)->capacidade - buscaEst(nomeEst)->lotAtual));
 
 }
-*/

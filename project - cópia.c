@@ -1,8 +1,8 @@
 /* iaed24 - ist1107278 - project */
 #include <stdio.h>
 #include <stdlib.h>
-#include "header1.h"
-#include "header2.h"
+#include "header1 - cópia.h"
+#include "header2 - cópia.h"
 int main(){
     char str[BUFSIZ];
     fgets(str, BUFSIZ, stdin);
@@ -14,7 +14,7 @@ int main(){
             break;
         case 'p':
             if(strlen(str)==2){
-                printf("voce slecionou z\n");
+                printf("voce slecionou p\n");
                 listaParque();
             }
             else{
